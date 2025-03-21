@@ -1,17 +1,5 @@
 import React, { Component } from "react";
-
-// Header Component
-class Header extends Component {
-  render() {
-    return (
-      <header style={{ padding: "10px", background: "#f8f9fa", textAlign: "center", fontSize: "20px", fontWeight: "bold" }}>
-        Employee Payroll Form
-      </header>
-    );
-  }
-}
-
-// PayrollForm Component
+import Header from "../Header/Header"; // Importing Header Component
 class PayrollForm extends Component {
   constructor(props) {
     super(props);
@@ -63,49 +51,88 @@ class PayrollForm extends Component {
 
   render() {
     return (
-      <div style={{ width: "50%", margin: "auto", padding: "20px", border: "1px solid #ddd", borderRadius: "5px" }}>
-        <Header />
+      <div id="header-div"
+        style={{
+          width: "50%",
+          margin: "auto",
+          padding: "20px",
+          border: "1px solid #ddd",
+          borderRadius: "5px",
+        }}
+      >
+        <Header  /> {/* Rendering Header as a child component */}
         <form onSubmit={this.handleSubmit}>
           <label>Name:</label>
-          <input type="text" name="name" value={this.state.name} onChange={this.handleChange} /><br />
+          <input
+            type="text"
+            name="name"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+          <br />
 
           <label>Gender:</label>
-          <input type="radio" name="gender" value="Male" onChange={this.handleChange} /> Male
-          <input type="radio" name="gender" value="Female" onChange={this.handleChange} /> Female<br />
+          <input
+            type="radio"
+            name="gender"
+            value="Male"
+            onChange={this.handleChange}
+          />{" "}
+          Male
+          <input
+            type="radio"
+            name="gender"
+            value="Female"
+            onChange={this.handleChange}
+          />{" "}
+          Female
+          <br />
 
           <label>Department:</label>
-          {['HR', 'Sales', 'Finance', 'Engineer', 'Others'].map((dept) => (
+          {["HR", "Sales", "Finance", "Engineer", "Others"].map((dept) => (
             <label key={dept}>
               <input type="checkbox" value={dept} onChange={this.handleChange} /> {dept}
             </label>
-          ))}<br />
+          ))}
+          <br />
 
           <label>Salary:</label>
           <select name="salary" value={this.state.salary} onChange={this.handleChange}>
             <option value="">Select Salary</option>
             <option value="5000">$5000</option>
             <option value="10000">$10000</option>
-          </select><br />
+          </select>
+          <br />
 
           <label>Start Date:</label>
           <select name="day" value={this.state.startDate.day} onChange={this.handleDateChange}>
             <option value="">Day</option>
-            {[...Array(31).keys()].map((d) => <option key={d + 1}>{d + 1}</option>)}
+            {[...Array(31).keys()].map((d) => (
+              <option key={d + 1}>{d + 1}</option>
+            ))}
           </select>
           <select name="month" value={this.state.startDate.month} onChange={this.handleDateChange}>
             <option value="">Month</option>
-            {['Jan', 'Feb', 'Mar', 'Apr', 'May'].map((m, i) => <option key={i}>{m}</option>)}
+            {["Jan", "Feb", "Mar", "Apr", "May"].map((m, i) => (
+              <option key={i}>{m}</option>
+            ))}
           </select>
           <select name="year" value={this.state.startDate.year} onChange={this.handleDateChange}>
             <option value="">Year</option>
-            {[2023, 2024, 2025].map((y) => <option key={y}>{y}</option>)}
-          </select><br />
+            {[2023, 2024, 2025].map((y) => (
+              <option key={y}>{y}</option>
+            ))}
+          </select>
+          <br />
 
           <label>Notes:</label>
-          <textarea name="notes" value={this.state.notes} onChange={this.handleChange}></textarea><br />
+          <textarea name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
+          <br />
 
           <button type="submit">Submit</button>
-          <button type="button" onClick={this.handleReset}>Reset</button>
+          <button type="button" onClick={this.handleReset}>
+            Reset
+          </button>
         </form>
       </div>
     );
