@@ -23,6 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 coverage
-src/Component/DashBoard
 Api.js
 Data.json
