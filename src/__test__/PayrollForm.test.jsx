@@ -16,12 +16,10 @@ describe('Registration Component', () => {
     render(<PayrollForm/>);
     expect(screen.getByText("Employee Payroll Form")).toBeInTheDocument();
   });
-
   test('renders the Name label', () => {
     render(<PayrollForm/>);
     expect(screen.getByText('Name')).toBeInTheDocument();
   });
-
   test('renders gender radio buttons', () => {
     render(<PayrollForm />);
     const maleRadio = screen.getByLabelText('Male');
@@ -56,136 +54,36 @@ describe('Registration Component', () => {
     fireEvent.change(textarea, { target: { value: 'Test note' } });
     expect(screen.getByDisplayValue('Test note')).toBeInTheDocument();
   });
-  // test('selects a profile image', () => {
-  //   render(<PayrollForm />);
-  //   const profileRadio = screen.getByRole('radio', { name: /person1/i });
-  //   fireEvent.click(profileRadio);
-  //   expect(profileRadio).toBeChecked();
-  // });
 
-  // test('resets all form fields when reset button is clicked', () => {
-  //   render(<PayrollForm />);
-  //   const nameInput = screen.getByLabelText('Name');
-  //   const hrCheckbox = screen.getByLabelText('HR');
-  //   const resetButton = screen.getByRole('button', { name: /reset/i });
+  test('resets all form fields when reset button is clicked', () => {
+    render(<PayrollForm />);
+    const nameInput = screen.getByLabelText('Name');
+    const hrCheckbox = screen.getByLabelText('HR');
+    const resetButton = screen.getByRole('button', { name: /reset/i });
 
-  //   fireEvent.change(nameInput, { target: { value: 'John Doe' } });
-  //   fireEvent.click(hrCheckbox);
-  //   fireEvent.click(resetButton);
+    fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+    fireEvent.click(hrCheckbox);
+    fireEvent.click(resetButton);
 
-  //   expect(nameInput).toHaveValue('');
-  //   expect(hrCheckbox).not.toBeChecked();
-  // });
+    expect(nameInput).toHaveValue('');
+    expect(hrCheckbox).not.toBeChecked();
+  });
+  test('allows selecting multiple departments', () => {
+    render(<PayrollForm />);
+    const hrCheckbox = screen.getByLabelText('HR');
+    const salesCheckbox = screen.getByLabelText('Sales');
 
-  // test('submits form successfully with valid data', async () => {
-  //   axios.post.mockResolvedValue({ status: 201 });
-  //   render(<PayrollForm />);
+    fireEvent.click(hrCheckbox);
+    fireEvent.click(salesCheckbox);
 
-  //   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane Doe' } });
-  //   fireEvent.click(screen.getByLabelText('Female'));
-  //   fireEvent.click(screen.getByLabelText('HR'));
-  //   fireEvent.change(screen.getByLabelText(/select salary/i), { target: { value: '₹20,000' } });
-  //   fireEvent.change(screen.getByLabelText(/day/i), { target: { value: '01' } });
-  //   fireEvent.change(screen.getByLabelText(/month/i), { target: { value: '01' } });
-  //   fireEvent.change(screen.getByLabelText(/year/i), { target: { value: '2023' } });
-  //   fireEvent.click(screen.getByRole('radio', { name: /person1/i }));
+    expect(hrCheckbox).toBeChecked();
+    expect(salesCheckbox).toBeChecked();
+  });
+  test('cancel button redirects to dashboard', () => {
+    render(<PayrollForm />);
+    const cancelButton = screen.getByRole('button', { name: /cancel/i });
 
-  //   fireEvent.click(screen.getByRole('button', { name: /submit/i }));
-
-  //   await waitFor(() => {
-  //     expect(axios.post).toHaveBeenCalledWith('http://localhost:3001/employees', expect.any(Object));
-  //     expect(window.location.href).toBe('/Pages/dashboard.html');
-  //   });
-  // });
-
-  // test('shows alert when submitting with missing required fields', () => {
-  //   const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-  //   render(<PayrollForm />);
-
-  //   fireEvent.click(screen.getByRole('button', { name: /submit/i }));
-
-  //   expect(alertSpy).toHaveBeenCalledWith('Please fill in all required fields.');
-  //   alertSpy.mockRestore();
-  // });
-
-  // test('allows selecting multiple departments', () => {
-  //   render(<PayrollForm />);
-  //   const hrCheckbox = screen.getByLabelText('HR');
-  //   const salesCheckbox = screen.getByLabelText('Sales');
-
-  //   fireEvent.click(hrCheckbox);
-  //   fireEvent.click(salesCheckbox);
-
-  //   expect(hrCheckbox).toBeChecked();
-  //   expect(salesCheckbox).toBeChecked();
-  // });
-
-  // test('selects a valid start date', () => {
-  //   render(<PayrollForm />);
-  //   const daySelect = screen.getByLabelText(/day/i);
-  //   const monthSelect = screen.getByLabelText(/month/i);
-  //   const yearSelect = screen.getByLabelText(/year/i);
-
-  //   fireEvent.change(daySelect, { target: { value: '15' } });
-  //   fireEvent.change(monthSelect, { target: { value: '03' } });
-  //   fireEvent.change(yearSelect, { target: { value: '2024' } });
-
-  //   expect(daySelect).toHaveValue('15');
-  //   expect(monthSelect).toHaveValue('03');
-  //   expect(yearSelect).toHaveValue('2024');
-  // });
-
-  // test('handles submission error gracefully', async () => {
-  //   axios.post.mockRejectedValue(new Error('Network Error'));
-  //   const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-  //   render(<PayrollForm />);
-
-  //   fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'Jane Doe' } });
-  //   fireEvent.click(screen.getByLabelText('Female'));
-  //   fireEvent.click(screen.getByLabelText('HR'));
-  //   fireEvent.change(screen.getByLabelText(/select salary/i), { target: { value: '₹20,000' } });
-  //   fireEvent.change(screen.getByLabelText(/day/i), { target: { value: '01' } });
-  //   fireEvent.change(screen.getByLabelText(/month/i), { target: { value: '01' } });
-  //   fireEvent.change(screen.getByLabelText(/year/i), { target: { value: '2023' } });
-  //   fireEvent.click(screen.getByRole('radio', { name: /person1/i }));
-
-  //   fireEvent.click(screen.getByRole('button', { name: /submit/i }));
-
-  //   await waitFor(() => {
-  //     expect(alertSpy).toHaveBeenCalledWith('Something went wrong while saving employee data.');
-  //   });
-  //   alertSpy.mockRestore();
-  // });
-
-  // test('name input rejects numbers', () => {
-  //   render(<PayrollForm />);
-  //   const nameInput = screen.getByLabelText('Name');
-
-  //   fireEvent.change(nameInput, { target: { value: 'John123' } });
-  //   expect(nameInput).not.toHaveValue('John123');
-  //   expect(nameInput).toHaveAttribute('pattern', '[A-Za-z\\s]+');
-  // });
-
-  // test('cancel button redirects to dashboard', () => {
-  //   render(<PayrollForm />);
-  //   const cancelButton = screen.getByRole('button', { name: /cancel/i });
-
-  //   fireEvent.click(cancelButton);
-  //   expect(cancelButton.closest('a')).toHaveAttribute('href', 'Dashboard.html');
-  // });
-
-  // test('all required fields have required attribute', () => {
-  //   render(<PayrollForm />);
-  //   const nameInput = screen.getByLabelText('Name');
-  //   const salarySelect = screen.getByLabelText(/select salary/i);
-  //   const daySelect = screen.getByLabelText(/day/i);
-  //   const monthSelect = screen.getByLabelText(/month/i);
-  //   const yearSelect = screen.getByLabelText(/year/i);
-
-  //   expect(nameInput).toHaveAttribute('required');
-  //   expect(salarySelect).toHaveAttribute('required');
-  //   expect(daySelect).toHaveAttribute('required');
-  //   expect(monthSelect).toHaveAttribute('required');
-  //   expect(yearSelect).toHaveAttribute('required');
-  // });
+    fireEvent.click(cancelButton);
+    expect(cancelButton.closest('a')).toHaveAttribute('href', 'Dashboard.html');
+  });
 });

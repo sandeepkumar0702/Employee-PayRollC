@@ -52,9 +52,7 @@ class Dashboard extends Component {
       <div className="min-h-screen bg-gray-50 font-sans">
         <Header />
 
-        {/* Main Content */}
         <div className="max-w-6xl mx-auto my-5 p-5 bg-white border border-gray-100 shadow-md rounded-lg">
-          {/* Header Section */}
           <div className="flex justify-between items-center mb-5">
             <h1 className="text-2xl font-normal text-gray-700">Employee Details</h1>
             <div className="flex items-center gap-4">
@@ -74,7 +72,6 @@ class Dashboard extends Component {
             </div>
           </div>
 
-          {/* Table Section */}
           <div className="mt-2.5 overflow-x-auto">
             {loading ? (
               <p>Loading employees...</p>

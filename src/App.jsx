@@ -5,8 +5,9 @@ import PayrollForm from './Component/PayrollForm/PayrollForm';
 function App() {
   return (
     <div>
-      <PayrollForm/>
-      <Dashboard/>
+      
+      {/* <PayrollForm/>
+      <Dashboard/> */}
     </div>
   );
 }
