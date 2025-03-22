@@ -1,0 +1,16 @@
+{
+  "employees": [
+    {
+      "id": "4ac9",
+      "name": "dev",
+      "profileImage": "/Assets/person1.jpeg",
+      "gender": "male",
+      "departments": [
+        "sales"
+      ],
+      "salary": "₹10,000",
+      "startDate": "11-08-2023",
+      "notes": "dd"
+    }
+  ]
+}
