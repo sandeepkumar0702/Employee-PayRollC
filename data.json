@@ -1,16 +1,16 @@
 {
   "employees": [
     {
-      "id": "4ac9",
-      "name": "dev",
-      "profileImage": "/Assets/person1.jpeg",
-      "gender": "male",
+      "id": "115a",
+      "name": "samk",
+      "profileImage": "/Assets/person2.jpeg",
+      "gender": "female",
       "departments": [
-        "sales"
+        "HR"
       ],
-      "salary": "₹10,000",
-      "startDate": "11-08-2023",
-      "notes": "dd"
+      "salary": "₹30,000",
+      "startDate": "05-08-2023",
+      "notes": "aaa"
     }
   ]
 }

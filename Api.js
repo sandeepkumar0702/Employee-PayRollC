@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const deleteEmployee = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:3001/employees/${id}`);
+    const response = await axios.delete(`http://localhost:5001/employees/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error deleting employee:", error);
@@ -12,7 +12,7 @@ export const deleteEmployee = async (id) => {
 
 export const fetchEmployees = async () => {
   try {
-    const response = await axios.get("http://localhost:3001/employees");
+    const response = await axios.get("http://localhost:5001/employees");
     return response.data;
   } catch (error) {
     console.error("Error fetching employees:", error);
