@@ -156,8 +156,14 @@ class Login extends Component {
                 <div className="relative flex justify-center text-sm">
                   <span className="px-2 bg-white text-gray-500">Or</span>
                 </div>
-
-                
+                <div className="mt-2 flex justify-center">
+                  <GoogleOAuthProvider clientId={clientId}>
+                    <GoogleLogin
+                      onSuccess={this.handleSuccess}
+                      onError={this.handleError}
+                    />
+                  </GoogleOAuthProvider>
+                </div>
               </div>
             </div>
           </div>
