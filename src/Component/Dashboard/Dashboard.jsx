@@ -19,6 +19,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.fetchEmployees();
+    
   }
 
   fetchEmployees = async () => {
@@ -59,6 +60,13 @@ class Dashboard extends Component {
       this.props.navigate("/"); // Redirect to login page
     }
   };
+  handleEditUser = (employee) => {
+    console.log("in the edit");
+    console.log(employee)
+    localStorage.setItem('editUserData', JSON.stringify(employee));
+    this.props.navigate("/payroll-form"); // Redirect to login page
+
+  };
 
   render() {
     const { employees, searchTerm, loading, error } = this.state;
@@ -67,9 +75,9 @@ class Dashboard extends Component {
     );
 
     return (
-      <>
+      <main>
         <Header />
-        <div className="min-h-screen bg-gray-50 font-sans">
+        <div className="w-full  p-8 flex-1 mt-4 min-h-screen bg-gray-50 font-sans">
           <div className="max-w-6xl mx-auto my-5 p-5 bg-white border border-gray-100 shadow-md rounded-lg">
             <div className="flex justify-between items-center mb-5">
               <h1 className="text-2xl font-normal text-gray-700">
@@ -119,12 +127,12 @@ class Dashboard extends Component {
                         <td className="p-3">
                           <div className="flex items-center">
                             <img
-                              src={employee.profileImage}
+                              src={`../../../public/${employee.profileImage}`}
                               alt={employee.name}
                               className="w-10 h-10 rounded-full object-cover mr-2.5"
                               onError={(e) =>
                                 (e.target.src =
-                                  "https://via.placeholder.com/40")
+                                  "https://placehold.co/40x40")
                               }
                             />
                             {employee.name}
@@ -145,7 +153,7 @@ class Dashboard extends Component {
                         <td className="p-3">{employee.startDate}</td>
                         <td className="p-3">
                           <div className="flex gap-2.5">
-                            <span className="text-blue-600 cursor-pointer">
+                            <span className="text-blue-600 cursor-pointer"  onClick={() => this.handleEditUser(employee)}>
                               Edit
                             </span>
                             <span
@@ -168,7 +176,7 @@ class Dashboard extends Component {
             </div>
           </div>
         </div>
-      </>
+      </main>
     );
   }
 }

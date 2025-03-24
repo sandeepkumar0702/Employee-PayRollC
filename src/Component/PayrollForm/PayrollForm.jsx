@@ -9,6 +9,7 @@ import axios from 'axios';
 class PayrollForm extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       name: '',
       profileImage: '',
@@ -20,22 +21,39 @@ class PayrollForm extends Component {
       year: '',
       notes: ''
     };
-  }
+    const editUserData = localStorage.getItem('editUserData');
+    if (editUserData) {
+      const employeeData = JSON.parse(editUserData);
+      this.state = {
+        ...this.state,
+        name: employeeData.name,
+        profileImage:employeeData.profileImage,
+        gender: employeeData.gender,
+        departments: employeeData.departments,
+        salary: employeeData.salary,
+        startDate: employeeData.startDate,
+        notes:employeeData.notes,
+        day:employeeData.day,
+        month:employeeData.month,
+        year:employeeData.year
 
+      };
+    }
+  }
   handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     const { name, profileImage, gender, department, salary, day, month, year, notes } = this.state;
-
+    
     // Validation
     if (!name || !profileImage || !gender || department.length === 0 || !salary || !day || !month || !year) {
       alert("Please fill in all required fields.");
       return;
     }
-
+  
     // Combine date
     const startDate = `${day}-${month}-${year}`;
-
+  
     // Prepare data object
     const employeeData = {
       name,
@@ -46,22 +64,85 @@ class PayrollForm extends Component {
       startDate,
       notes
     };
-
+  
     try {
-      // POST to JSON Server
-      const response = await axios.post("http://localhost:5001/employees", employeeData);
-      if (response.status === 201) {
-        alert("Employee added successfully!");
-        this.handleReset();
-        window.location.href = "/Pages/dashboard.html"; // Redirect (adjust if using React Router)
+      // Check if we're editing an existing employee
+      const editUserData = localStorage.getItem('editUserData');
+      
+      if (editUserData) {
+        // We're updating an existing employee
+        const employeeToEdit = JSON.parse(editUserData);
+        const employeeId = employeeToEdit.id;
+        
+        // PUT request to update the employee
+        const response = await axios.put(`http://localhost:5001/employees/${employeeId}`, employeeData);
+        
+        if (response.status === 200) {
+          alert("Employee updated successfully!");
+          localStorage.removeItem('editUserData'); // Clear the stored edit data
+          window.location.href = "/Pages/dashboard.html"; // Redirect
+        } else {
+          throw new Error("Failed to update data");
+        }
       } else {
-        throw new Error("Failed to store data");
+        // We're creating a new employee
+        const response = await axios.post("http://localhost:5001/employees", employeeData);
+        
+        if (response.status === 201) {
+          alert("Employee added successfully!");
+          this.handleReset();
+          window.location.href = "/Pages/dashboard.html"; // Redirect
+        } else {
+          throw new Error("Failed to store data");
+        }
       }
     } catch (error) {
       console.error("Submission error:", error);
       alert("Something went wrong while saving employee data.");
     }
   };
+  // handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   localStorage.removeItem('editUserData');
+  //   console.log(this.state);
+  //   const { name, profileImage, gender, department, salary, day, month, year, notes } = this.state;
+  //   console.log(name+profileImage+gender+department+salary);
+
+  //   // Validation
+  //   if (!name || !profileImage || !gender || department.length === 0 || !salary || !day || !month || !year) {
+  //     alert("Please fill in all required fields.");
+  //     return;
+  //   }
+
+  //   // Combine date
+  //   const startDate = `${day}-${month}-${year}`;
+
+  //   // Prepare data object
+  //   const employeeData = {
+  //     name,
+  //     profileImage,
+  //     gender,
+  //     departments: department, // Match the field name expected by JSON Server
+  //     salary,
+  //     startDate,
+  //     notes
+  //   };
+
+  //   try {
+  //     // POST to JSON Server
+  //     const response = await axios.post("http://localhost:5001/employees", employeeData);
+  //     if (response.status === 201) {
+  //       alert("Employee added successfully!");
+  //       this.handleReset();
+  //       window.location.href = "/Pages/dashboard.html"; // Redirect (adjust if using React Router)
+  //     } else {
+  //       throw new Error("Failed to store data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Submission error:", error);
+  //     alert("Something went wrong while saving employee data.");
+  //   }
+  // };
 
   handleReset = () => {
     this.setState({
@@ -96,12 +177,12 @@ class PayrollForm extends Component {
     const { name, profileImage, gender, department, salary, day, month, year, notes } = this.state;
 
     return (
-      <main className="flex flex-col items-center w-full min-h-screen">
+      <main >
         <Header />
         
-        <div className="w-full bg-gray-100 p-8 flex-1">
+        <div className="w-full bg-gray-100 p-8 flex-1 mt-4">
           <form 
-            className="max-w-4xl mx-auto bg-white p-8 flex flex-col gap-14 text-[#42515F]"
+            className="max-w-4xl mx-auto bg-white p-4 flex flex-col gap-6 text-[#42515F]"
             id="employeeForm" 
             onSubmit={this.handleSubmit}
           >
@@ -124,14 +205,14 @@ class PayrollForm extends Component {
 
               <div className="flex items-center gap-2 md:flex-row flex-col">
                 <label className="w-1/3">Profile image</label>
-                <div className="flex gap-6 md:w-2/3 flex-col md:flex-row">
+                <div className="flex gap-8 md:w-2/3 flex-col md:flex-row">
                   {[
                     { value: "/Assets/person1.jpeg", src: person2 },
                     { value: "/Assets/person2.jpeg", src: person1 },
                     { value: "/Assets/person3.jpeg", src: person4 },
                     { value: "/Assets/person4.jpeg", src: person3 }
                   ].map((img, index) => (
-                    <label key={index} className="flex gap-3 items-center">
+                    <label key={index} className="flex gap-5 items-center">
                       <input
                         type="radio"
                         name="profileImage"
@@ -264,7 +345,7 @@ class PayrollForm extends Component {
                   name="notes"
                   value={notes}
                   onChange={this.handleInputChange}
-                  className="w-full md:w-2/3 h-24 p-2 border border-gray-300 rounded"
+                  className="w-full md:w-2/3 h-18 p-2 border border-gray-300 rounded"
                 />
               </div>
 
