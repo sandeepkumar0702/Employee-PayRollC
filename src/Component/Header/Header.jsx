@@ -1,40 +1,69 @@
-import React, { Component } from "react";
-import logo from "../../assets/logo.jpeg";
-import { FaUserCircle } from "react-icons/fa";
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: JSON.parse(localStorage.getItem("googleUser")) || {},
-      currentPath: window.location.pathname,
-    };
-  }
-  handleEditProfile=async()=>{
+import React, { useState } from 'react';
+import logo from '../../assets/logo.jpeg';
+import userIcon from '../../assets/User_Icon.png';
+import { useNavigate } from 'react-router-dom';
 
-  }
-  render() {
-    const { user, currentPath } = this.state;
-    const isLoginPage = currentPath === "/login";
-    const displayName = isLoginPage
-      ? "Guest"
-      : `${user.given_name || ""} ${user.family_name || ""}`.trim() || "User";
-    return (
-      <header className="w-full h-[6vh] bg-white relative">
-        <div className="flex items-center justify-between px-[5%] mt-3 mb-3">
-          <div className="flex ">
-            <img src={logo} alt="logo" className="w-12 h-12" />
-            <a href="Dashboard.html" className="no-underline">
-              <p className="font-bold text-[#82A70C]">EMPLOYEE</p>
-              <p className="text-[#42515F]">PAYROLL</p>
-            </a>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaUserCircle className="text-[#42515F] w-8 h-8" />
-            <span className="text-[#42515F] font-medium" onClick={this.handleEditProfile}>{displayName}</span>
-          </div>
+const Header = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const userName = localStorage.getItem('userName');
+  const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    navigate('/');
+    setIsDropdownOpen(false);
+  };
+
+  return (
+    <header className="w-full h-[9.25vh] bg-white relative">
+      <div className="flex justify-between items-center px-[5%] py-2">
+        <div className="flex gap-1 items-center">
+          <img src={logo} alt="logo" className="w-10 h-10" />
+          <a href="/dashboard" className="no-underline">
+            <p className="font-bold text-[#82A70C]">EMPLOYEE</p>
+            <p className="text-[#42515F] mt-[-8px]">PAYROLL</p>
+          </a>
         </div>
-      </header>
-    );
-  }
-}
+        
+        
+        {userName && (
+          <div className="relative">
+            <div 
+              className="flex items-center gap-2 cursor-pointer" 
+              onClick={toggleDropdown}
+            >
+              <img 
+                src={userIcon} 
+                alt="User Icon" 
+                className="w-8 h-8 cursor-pointer" 
+              />
+              <span className="text-[#42515F] font-medium hidden md:inline">
+                {userName}
+              </span>
+            </div>
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                <div className="px-4 py-2 text-[#42515F] font-medium border-b border-gray-200 md:hidden">
+                  {userName}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-[#42515F] hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
 export default Header;
