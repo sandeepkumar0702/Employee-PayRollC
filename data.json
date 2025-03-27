@@ -1,16 +1,29 @@
 {
   "EmpList": [
     {
+      "id": "5279",
       "name": "Sandeep Kumar ",
+      "profileImage": "/Assets/person4.jpeg",
+      "gender": "male",
+      "departments": [
+        "finance",
+        "others"
+      ],
+      "salary": "₹10,000",
+      "startDate": "10-11-2022",
+      "notes": "bhg"
+    },
+    {
+      "id": "21d2",
+      "name": "m nn",
       "profileImage": "/Assets/person1.jpeg",
       "gender": "male",
       "departments": [
         "HR"
       ],
-      "salary": "₹20,000",
-      "startDate": "06-08-",
-      "notes": "vgvgvvg\n",
-      "id": "ae95"
+      "salary": "₹10,000",
+      "startDate": "09-11-2022",
+      "notes": "nnn"
     }
   ]
 }

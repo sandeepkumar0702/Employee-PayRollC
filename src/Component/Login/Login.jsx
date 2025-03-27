@@ -24,11 +24,11 @@ const Login = () => {
       <div className="flex flex-col min-h-screen justify-center items-center">
         <div className='border rounded-[3px] h-[150px] w-[300px] bg-white !py-[10px]'>
           <div className="flex flex-col items-center justify-center flex-grow text-black">
-            <h2 className="text-2xl mb-6">SSO Login with Google</h2>
+            <h2 className="text-2xl mb-6">Sign In to Payroll</h2>
             <div className="bg-white px-4 py-2 rounded">
               <GoogleLogin
                 onSuccess={handleLoginSuccess}
-                onError={(err) => err.message}
+              
               />
             </div>
           </div>

@@ -119,6 +119,8 @@ class Dashboard extends Component {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-700 text-white">
+                  <th className="p-3 text-center"></th>
+
                     <th className="p-3 text-center">NAME</th>
                     <th className="p-3 text-left">GENDER</th>
                     <th className="p-3 text-left">DEPARTMENT</th>
@@ -149,19 +151,20 @@ class Dashboard extends Component {
                         <td className="p-3">
                           <div className="flex items-center">
                             <img
-                              src={employee.profileImage}
+                              src={`/public${employee.profileImage}`}
                               alt={employee.name}
                               className="w-10 h-10 rounded-full object-cover mr-2.5"
-                              onError={(e) => (e.target.src = 'https://via.placeholder.com/40')}
+                              onError={(e) => (e.target.src = 'https://via.placeholder.com/150?text=Hello')}
                             />
-                            {employee.name}
                           </div>
                         </td>
+                        <td className="p-3">{employee.name}</td>
+
                         <td className="p-3">{employee.gender}</td>
                         <td className="p-3">
                           {employee.departments.map((dept, idx) => (
                             <span
-                              key={idx}
+                              key={employee.id}
                               className="inline-block bg-[#E9FEA5] text-black rounded-[13px] px-2.5 py-1 text-xs mr-1.5"
                             >
                               {dept}
