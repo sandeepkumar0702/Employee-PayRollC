@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Registration from '../Component/Register/Registration'; 
+import Registration from '../Component/Registration'; 
 import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -49,40 +50,6 @@ describe('Registration Component', () => {
     expect(screen.getByText(/Department/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Select Salary/i)).toBeInTheDocument();
     expect(screen.getByText(/Start Date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Notes/i)).toBeInTheDocument();
-  });
-  test('renders Name field', () => {
-    render(<MockRegistration />);
-    expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
-  });
-  
-  test('renders Profile Image field', () => {
-    render(<MockRegistration />);
-    expect(screen.getByText(/Profile Image/i)).toBeInTheDocument();
-  });
-  
-  test('renders Gender field', () => {
-    render(<MockRegistration />);
-    expect(screen.getByText(/Gender/i)).toBeInTheDocument();
-  });
-  
-  test('renders Department field', () => {
-    render(<MockRegistration />);
-    expect(screen.getByText(/Department/i)).toBeInTheDocument();
-  });
-  
-  test('renders Select Salary field', () => {
-    render(<MockRegistration />);
-    expect(screen.getByLabelText(/Select Salary/i)).toBeInTheDocument();
-  });
-  
-  test('renders Start Date field', () => {
-    render(<MockRegistration />);
-    expect(screen.getByText(/Start Date/i)).toBeInTheDocument();
-  });
-  
-  test('renders Notes field', () => {
-    render(<MockRegistration />);
     expect(screen.getByLabelText(/Notes/i)).toBeInTheDocument();
   });
 
@@ -136,12 +103,12 @@ describe('Registration Component', () => {
     fireEvent.click(screen.getByText(/Submit/i));
 
     await waitFor(() => {
-      expect(screen.getByText('Are you sure you want to add the employee?')).toBeInTheDocument();
+      expect(screen.getByText('Are you sure you want to Add the employee?')).toBeInTheDocument();
     });
     fireEvent.click(screen.getByText('Add'));
 
     await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:3000/EmpList', {
+      expect(axios.post).toHaveBeenCalledWith('http://localhost:3001/EmpList', {
         name: 'John Doe',
         profileImage: '/Assets/person1.jpeg',
         gender: 'male',
@@ -173,7 +140,7 @@ describe('Registration Component', () => {
     fireEvent.click(screen.getByText(/Submit/i));
 
     await waitFor(() => {
-      expect(screen.getByText('Are you sure you want to add the employee?')).toBeInTheDocument();
+      expect(screen.getByText('Are you sure you want to Add the employee?')).toBeInTheDocument();
     });
     fireEvent.click(screen.getByText('Add'));
   });
