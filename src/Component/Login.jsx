@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
-const clientId = "41077750453-nekju1vnqo087736d3b0pffge7iblk61.apps.googleusercontent.com";
+const clientId = "245893321816-uu0f7aohdad1ipo513k4cd21s9n8sfmu.apps.googleusercontent.com";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +12,8 @@ const Login = () => {
     const token = credentialResponse.credential;
     const userData = jwtDecode(token);
     const name = userData.name || userData.given_name || "User";
-
+    const Email = userData.email;
+    localStorage.setItem("userEmail", Email);
     localStorage.setItem("userName", name);
     console.log("Login Success:", userData);
 
@@ -28,7 +29,7 @@ const Login = () => {
             <div className="bg-white px-4 py-2 rounded">
               <GoogleLogin
                 onSuccess={handleLoginSuccess}
-                // onError={(err) => err.message}
+             
               />
             </div>
           </div>
