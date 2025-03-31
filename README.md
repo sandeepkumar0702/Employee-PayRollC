@@ -22,9 +22,9 @@
 🔹 **API Testing:** Postman  
 🔹 **Authentication:** JWT-based  
 
-# 🚀 React Project Setup Guide
+# 🚀 Project Setup Guide
 
-This guide will help you set up and clone a React project on your local machine.
+This guide will help you set up and clone project on your local machine.
 
 ## 📦 Prerequisites
 Before you begin, ensure you have the following installed:
@@ -69,17 +69,5 @@ To run tests, use the following command:
 ```sh
 npm test
 ```
-
-
-## 🔧 Additional Scripts
-- **Linting:** `npm run lint` or `yarn lint`
-- **Format Code:** `npm run format` or `yarn format`
-
-## 📜 License
-This project is licensed under the **MIT License**.
-
----
-💡 **Tip:** Modify the repository link in the `git clone` command to match your project!
-
 Happy coding! 🚀
 
