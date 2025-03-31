@@ -109,9 +109,9 @@ class Registration extends Component {
 
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:3000/EmpList/${id}`, employeeData);
+        await axios.put(`${import.meta.env.VITE_API_URL}/${id}`, employeeData);
       } else {
-        await axios.post('http://localhost:3000/EmpList', employeeData);
+        await axios.post(`${import.meta.env.VITE_API_URL}`, employeeData);
       }
       this.handleReset();
       this.props.navigate('/dashboard');

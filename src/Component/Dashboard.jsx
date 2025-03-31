@@ -38,7 +38,7 @@ class Dashboard extends Component {
   fetchEmployees = async () => {
     this.setState({ loading: true });
     try {
-      const response = await fetch("http://localhost:3000/EmpList");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}`);
       if (!response.ok) {
         throw new Error("Failed to fetch employees");
       }
@@ -60,7 +60,7 @@ class Dashboard extends Component {
   confirmDelete = async () => {
     const { employeeIdToDelete } = this.state;
     try {
-      const response = await fetch(`http://localhost:3000/EmpList/${employeeIdToDelete}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/${employeeIdToDelete}`, {
         method: "DELETE",
       });
       if (!response.ok) {
