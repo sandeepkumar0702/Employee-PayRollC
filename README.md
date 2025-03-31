@@ -21,3 +21,65 @@
 🔹 **State Management:** React Hooks  
 🔹 **API Testing:** Postman  
 🔹 **Authentication:** JWT-based  
+
+# 🚀 React Project Setup Guide
+
+This guide will help you set up and clone a React project on your local machine.
+
+## 📦 Prerequisites
+Before you begin, ensure you have the following installed:
+
+- 🟢 **Node.js** (Download from [Node.js official site](https://nodejs.org/))
+- 📦 **npm** or **yarn** (Comes with Node.js)
+- 🖥️ **Git** (Download from [Git official site](https://git-scm.com/))
+
+## 🔗 Clone the Repository
+To clone the project from GitHub, run the following command:
+
+```sh
+git clone https://github.com/sandeepkumar0702/Employee-PayRollC.git
+```
+
+Navigate into the project directory:
+
+```sh
+cd Employee-PayRollC
+```
+
+## 📥 Install Dependencies
+Install the required dependencies using **npm** or **yarn**:
+
+### Using npm:
+```sh
+npm install
+```
+## ▶️ Start the Development Server
+Run the following command to start the development server:
+
+### Using npm:
+```sh
+npm run dev
+```
+The application will be available at **`http://localhost:5173/`**.
+
+## 🧪 Running Tests
+To run tests, use the following command:
+
+### Using npm:
+```sh
+npm test
+```
+
+
+## 🔧 Additional Scripts
+- **Linting:** `npm run lint` or `yarn lint`
+- **Format Code:** `npm run format` or `yarn format`
+
+## 📜 License
+This project is licensed under the **MIT License**.
+
+---
+💡 **Tip:** Modify the repository link in the `git clone` command to match your project!
+
+Happy coding! 🚀
+
