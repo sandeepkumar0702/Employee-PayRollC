@@ -190,55 +190,6 @@ test('filters employees based on search term when search bar is visible', async 
     });
   });
   
-//
-// test('shows error when delete fails', async () => {
-//   const mockEmployee = {
-//     id: 1,
-//     name: 'Sandeep',
-//     gender: 'Male',
-//     departments: ['IT'],
-//     salary: 50000,
-//     startDate: '2023-01-01',
-//   };
-
-//   // Mock API responses
-//   fetch.mockResolvedValueOnce({
-//     ok: true,
-//     json: () => Promise.resolve([mockEmployee]), // Initial employee list
-//   });
-
-//   // Simulate delete failure
-//   fetch.mockRejectedValueOnce(new Error('Delete failed'));
-
-//   // Spy on console.error to suppress error messages during test
-//   const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-//   renderWithRouter(<Dashboard />);
-
-//   // Wait for employee to be displayed
-//   await waitFor(() => {
-//     expect(screen.getByText('Sandeep')).toBeInTheDocument();
-//   });
-
-//   // Click delete button
-//   fireEvent.click(screen.getByLabelText('Delete employee'));
-
-//   // Ensure confirmation modal appears
-//   await waitFor(() => {
-//     expect(screen.getByText('Are you sure you want to delete the employee?')).toBeInTheDocument();
-//   });
-
-//   // Click delete confirmation
-//   fireEvent.click(screen.getByText('Delete'));
-
-//   // Ensure error is logged
-//   await waitFor(() => {
-//     expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/Failed to delete employee/));
-//   });
-
-//   // Restore console.error after test
-//   consoleErrorSpy.mockRestore();
-// });
 
 test('closes modal when cancel button is clicked', async () => {
   const mockEmployee = {
@@ -250,7 +201,6 @@ test('closes modal when cancel button is clicked', async () => {
     startDate: '2023-01-01',
   };
 
-  // Mock API responses
   fetch.mockResolvedValueOnce({
     ok: true,
     json: () => Promise.resolve([mockEmployee]), // Initial employee list
@@ -258,27 +208,21 @@ test('closes modal when cancel button is clicked', async () => {
 
   renderWithRouter(<Dashboard />);
 
-  // Wait for employee to be displayed
   await waitFor(() => {
     expect(screen.getByText('Sandeep')).toBeInTheDocument();
   });
 
-  // Click delete button
   fireEvent.click(screen.getByLabelText('Delete employee'));
 
-  // Ensure confirmation modal appears
   await waitFor(() => {
     expect(screen.getByText('Are you sure you want to delete the employee?')).toBeInTheDocument();
   });
 
-  // Click Cancel button
   fireEvent.click(screen.getByText('Cancel'));
 
-  // Ensure modal is closed (modal should no longer be in the document)
   await waitFor(() => {
     expect(screen.queryByText('Are you sure you want to delete the employee?')).not.toBeInTheDocument();
   });
 });
-
 
 });
