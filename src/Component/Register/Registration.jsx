@@ -211,14 +211,14 @@ class Registration extends Component {
                 </div>
 
                 <div className="flex gap-2 flex-col md:flex-row">
-                  <label htmlFor='depart' className="flex justify-start min-w-[20%] text-left md:text-right font-medium text-gray-700">
+                  <label htmlFor='depart' className="flex justify-start min-w-[20%] text-left md:text-start font-medium text-gray-700">
                     Department
                   </label>
                   <div className="w-[100%] flex gap-4 md:w-[75%] md:flex-row flex-wrap justify-center md:justify-start">
                     {['HR', 'sales', 'finance', 'engineer', 'others'].map((dept) => (
                       <label
                         key={dept}
-                        className="flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition-all duration-300"
+                        className="text-start flex gap-2 items-center cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition-all duration-300"
                       >
                         <input
                           type="checkbox"
@@ -260,8 +260,8 @@ class Registration extends Component {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 md:flex-row flex-col">
-                  <label htmlFor='date' className="min-w-[20%] font-medium text-gray-700">Start Date</label>
+                <div className="flex  gap-2 md:flex-row flex-col">
+                  <label htmlFor='date' className="min-w-[20%] font-medium text-gray-700 ">Start Date</label>
                   <div className="flex gap-4 md:w-2/3 w-full flex-col md:flex-row">
                     <select
                       id="day"
