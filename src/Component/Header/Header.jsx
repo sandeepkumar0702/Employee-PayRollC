@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo.jpeg';
-import userIcon from '../assets/User_Icon.png';
+import logo from '../../assets/logo.jpeg';
+import userIcon from '../../assets/User_Icon.png';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const userName = localStorage.getItem('userName');
-  const userEmail = localStorage.getItem('userEmail');
   const navigate = useNavigate();
-
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -16,19 +14,18 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
     navigate('/');
     setIsDropdownOpen(false);
   };
 
   return (
     <header className="w-full h-[9.25vh] bg-white relative">
-      <div className="flex justify-between items-center px-[5%] h-[100%] pt-[2px]">
+      <div className="flex justify-between items-center px-[5%] py-2">
         <div className="flex gap-1 items-center">
           <img src={logo} alt="logo" className="w-10 h-10" />
           <a href="/dashboard" className="no-underline">
             <p className="font-bold text-[#82A70C]">EMPLOYEE</p>
-            <p className="text-[#42515F] mt-[-8px] font-bold">PAYROLL</p>
+            <p className="text-[#42515F] mt-[-8px]">PAYROLL</p>
           </a>
         </div>
         
@@ -40,24 +37,19 @@ const Header = () => {
               onClick={toggleDropdown}
             >
               <img 
-                src={userIcon}   
+                src={userIcon} 
                 alt="User Icon" 
                 className="w-8 h-8 cursor-pointer" 
               />
-              <div className='flex flex-col text-left'>
               <span className="text-[#42515F] font-medium hidden md:inline">
                 {userName}
               </span>
-              <span className="text-[#42515F] font-medium hidden md:inline">
-                {userEmail}
-              </span>
-              </div>
             </button>
 
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                <div className=" flex px-4 py-2 text-[#42515F] font-medium border-b border-gray-200 md:hidden">
-                  <span>{userName}</span>
+                <div className="px-4 py-2 text-[#42515F] font-medium border-b border-gray-200 md:hidden">
+                  {userName}
                 </div>
                 <button
                   onClick={handleLogout}

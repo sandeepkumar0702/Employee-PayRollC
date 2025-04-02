@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Header from '../Component/Header';
+import Header from '../Component/Header/Header';
 
 
 jest.mock('../../assets/logo.jpeg', () => 'mocked-logo');
@@ -36,7 +35,7 @@ describe('Header Component', () => {
   });
 
   test('opens dropdown when clicking on user icon', () => {
-    localStorage.setItem('userName', 'Sparsh');
+    localStorage.setItem('userName', 'aman');
     renderWithRouter(<Header />); 
 
     const userIcon = screen.getByRole('img', { name: /user icon/i });
@@ -47,7 +46,7 @@ describe('Header Component', () => {
   });
 
   test('clicking logout removes user data and redirects', () => {
-    localStorage.setItem('userName', 'Sparsh');
+    localStorage.setItem('userName', 'aman');
     renderWithRouter(<Header />); 
 
     const userIcon = screen.getByRole('img', { name: /user icon/i });

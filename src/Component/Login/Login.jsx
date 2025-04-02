@@ -7,18 +7,17 @@ const clientId = "245893321816-uu0f7aohdad1ipo513k4cd21s9n8sfmu.apps.googleuserc
 
 const Login = () => {
   const navigate = useNavigate();
-  const handleLoginSuccess = (credentialResponse) => {
-  if (!localStorage.getItem("userEmail")) {
 
+  const handleLoginSuccess = (credentialResponse) => {
     const token = credentialResponse.credential;
     const userData = jwtDecode(token);
     const name = userData.name || userData.given_name || "User";
-    const Email = userData.email;
-    localStorage.setItem("userEmail", Email);
+
     localStorage.setItem("userName", name);
     console.log("Login Success:", userData);
+
     navigate("/dashboard");
-  }}
+  };
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
@@ -29,7 +28,7 @@ const Login = () => {
             <div className="bg-white px-4 py-2 rounded">
               <GoogleLogin
                 onSuccess={handleLoginSuccess}
-             
+                onError={(err) => err.message}
               />
             </div>
           </div>

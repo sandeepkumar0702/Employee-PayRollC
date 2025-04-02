@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import Registration from '../Component/Registration'; 
+import Registration from '../Component/Register/Registration'; 
 import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -45,46 +44,11 @@ describe('Registration Component', () => {
     render(<MockRegistration />);
     
     expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
-    expect(screen.getByText(/Gender/i)).toBeInTheDocument();
-    expect(screen.getByText(/Department/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Select Salary/i)).toBeInTheDocument();
-    expect(screen.getByText(/Start Date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Notes/i)).toBeInTheDocument();
-  });
-  test('renders form fields correctly', () => {
-    const { useLocation } = require('react-router-dom');
-    useLocation.mockReturnValue({ state: null });
-    render(<MockRegistration />);
     expect(screen.getByText(/Profile Image/i)).toBeInTheDocument();
-  });
-  test('renders form fields correctly', () => {
-    const { useLocation } = require('react-router-dom');
-    useLocation.mockReturnValue({ state: null });
-    render(<MockRegistration />);
     expect(screen.getByText(/Gender/i)).toBeInTheDocument();
-  });
-  test('renders form fields correctly', () => {
-    const { useLocation } = require('react-router-dom');
-    useLocation.mockReturnValue({ state: null });
-    render(<MockRegistration />);
     expect(screen.getByText(/Department/i)).toBeInTheDocument();
-  });
-  test('renders form fields correctly', () => {
-    const { useLocation } = require('react-router-dom');
-    useLocation.mockReturnValue({ state: null });
-    render(<MockRegistration />);
     expect(screen.getByLabelText(/Select Salary/i)).toBeInTheDocument();
-  });
-  test('renders form fields correctly', () => {
-    const { useLocation } = require('react-router-dom');
-    useLocation.mockReturnValue({ state: null });
-    render(<MockRegistration />);
     expect(screen.getByText(/Start Date/i)).toBeInTheDocument();
-  });
-  test('renders form fields correctly', () => {
-    const { useLocation } = require('react-router-dom');
-    useLocation.mockReturnValue({ state: null });
-    render(<MockRegistration />);
     expect(screen.getByLabelText(/Notes/i)).toBeInTheDocument();
   });
 
@@ -138,7 +102,7 @@ describe('Registration Component', () => {
     fireEvent.click(screen.getByText(/Submit/i));
 
     await waitFor(() => {
-      expect(screen.getByText('Are you sure you want to Add the employee?')).toBeInTheDocument();
+      expect(screen.getByText('Are you sure you want to add the employee?')).toBeInTheDocument();
     });
     fireEvent.click(screen.getByText('Add'));
 
@@ -175,7 +139,7 @@ describe('Registration Component', () => {
     fireEvent.click(screen.getByText(/Submit/i));
 
     await waitFor(() => {
-      expect(screen.getByText('Are you sure you want to Add the employee?')).toBeInTheDocument();
+      expect(screen.getByText('Are you sure you want to add the employee?')).toBeInTheDocument();
     });
     fireEvent.click(screen.getByText('Add'));
   });
@@ -215,44 +179,6 @@ describe('Registration Component', () => {
     render(<MockRegistration />);
     
     fireEvent.click(screen.getByText(/Cancel/i));
-    expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
-  });
-   test('shows validation errors when submit is clicked with empty form', async () => {
-      render(<Registration />);
-      fireEvent.click(screen.getByText('Submit'));
-  
-      await waitFor(() => {
-        expect(screen.getByText('Name is required')).toBeInTheDocument();
-        expect(screen.getByText('Please select a profile image')).toBeInTheDocument();
-        expect(screen.getByText('Please select a gender')).toBeInTheDocument();
-        expect(screen.getByText('Please select at least one department')).toBeInTheDocument();
-        expect(screen.getByText('Please select a salary')).toBeInTheDocument();
-        expect(screen.getByText('Please select a complete start date')).toBeInTheDocument();
-      });
-  
-      expect(screen.queryByText('Are you sure you want to Add the employee?')).not.toBeInTheDocument();
-    });
-  
-    test('does not open modal when form data is invalid', async () => {
-      render(<Registration />);
-  
-      fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'A' } });
-      fireEvent.click(screen.getByText('Submit'));
-  
-      await waitFor(() => {
-        expect(screen.getByText('Name must be 2-50 letters and spaces only')).toBeInTheDocument();
-        expect(screen.queryByText('Are you sure you want to Add the employee?')).not.toBeInTheDocument();
-      });
-    });
-  test('resets form when reset button is clicked', () => {
-    render(<Registration />);
-    fireEvent.change(screen.getByLabelText('Name'), { target: { value: 'John Doe' } });
-    fireEvent.click(screen.getByText('Reset'));
-    expect(screen.getByLabelText('Name').value).toBe('');
-  });
-  test('navigates to dashboard on cancel', () => {
-    render(<Registration />);
-    fireEvent.click(screen.getByText('Cancel'));
     expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
 });

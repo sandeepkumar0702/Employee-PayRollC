@@ -4,8 +4,9 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {jwtDecode} from 'jwt-decode';
-import Login from '../Component/Login.jsx';
+import Login from '../Component/Login/Login.jsx';
 
+// Mock dependencies
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => jest.fn()
@@ -41,6 +42,7 @@ describe('Login Component', () => {
   });
 
   test('handles successful Google login', async () => {
+    // Mock decoded user data
     jwtDecode.mockReturnValue({
       name: 'Test User',
       email: 'test@example.com'

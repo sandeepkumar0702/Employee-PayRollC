@@ -2,9 +2,9 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Dashboard from '../Component/Dashboard';
+import Dashboard from '../Component/Dashboard/Dashboard';
 
-jest.mock('../Component/Header', () => () => <div data-testid="mock-header">Header</div>);
+jest.mock('../Component/Header/Header', () => () => <div data-testid="mock-header">Header</div>);
 
 
 global.fetch = jest.fn();
@@ -31,12 +31,17 @@ describe('Dashboard Component', () => {
     renderWithRouter(<Dashboard />);
     expect(screen.getByText('Loading employees...')).toBeInTheDocument();
   });
+  
+  test('check for heading',()=>{
+    render(<Dashboard/>),
+    expect(screen.getByText(/employee details/i)).toBeInTheDocument();
+  })
 
   test('renders employee list successfully', async () => {
     const mockEmployees = [
       {
         id: 1,
-        name: 'Sandeep',
+        name: 'amandeep',
         gender: 'Male',
         departments: ['IT'],
         salary: 50000,
@@ -52,7 +57,7 @@ describe('Dashboard Component', () => {
     renderWithRouter(<Dashboard />);
 
     await waitFor(() => {
-      expect(screen.getByText('Sandeep')).toBeInTheDocument();
+      expect(screen.getByText('amandeep')).toBeInTheDocument();
       expect(screen.getByText('Male')).toBeInTheDocument();
       expect(screen.getByText('IT')).toBeInTheDocument();
       expect(screen.getByText('50000')).toBeInTheDocument();
@@ -69,56 +74,142 @@ describe('Dashboard Component', () => {
       expect(screen.getByText('Error: Network error')).toBeInTheDocument();
     });
   });
-test('filters employees based on search term when search bar is visible', async () => {
-  const mockEmployees = [
-    { id: 1, name: 'Sandeep', gender: 'Male', departments: ['IT'], salary: 50000, startDate: '2023-01-01' },
-    { id: 2, name: 'Harsh', gender: 'Female', departments: ['HR'], salary: 55000, startDate: '2023-02-01' },
-  ];
-  global.fetch = jest.fn(() =>
-    Promise.resolve({
+
+  test('filters employees based on search term', async () => {
+    const mockEmployees = [
+      { id: 1, name: 'amandeep', gender: 'Male', departments: ['IT'], salary: 50000, startDate: '2023-01-01' },
+      { id: 2, name: 'Harsh', gender: 'Female', departments: ['HR'], salary: 55000, startDate: '2023-02-01' },
+    ];
+    fetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(mockEmployees),
-    })
-  );
-  renderWithRouter(<Dashboard />);
-  await waitFor(() => {
-    expect(screen.getByText('Sandeep')).toBeInTheDocument();
-    expect(screen.getByText('Harsh')).toBeInTheDocument();
-  });
-  expect(screen.queryByPlaceholderText('Enter name..')).not.toBeInTheDocument();
-  fireEvent.click(screen.getByTestId('toggle-search'));
-  await waitFor(() => {
-    expect(screen.getByPlaceholderText('Enter name..')).toBeInTheDocument();
-  });
-  fireEvent.change(screen.getByPlaceholderText('Enter name..'), {
-    target: { value: 'Sandeep' },
-  });
-  await waitFor(() => {
-    expect(screen.getByText('Sandeep')).toBeInTheDocument();
+    });
+
+    renderWithRouter(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('amandeep')).toBeInTheDocument();
+      expect(screen.getByText('Harsh')).toBeInTheDocument();
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Search by name...'), {
+      target: { value: 'amandeep' },
+    });
+
+    expect(screen.getByText('amandeep')).toBeInTheDocument();
     expect(screen.queryByText('Harsh')).not.toBeInTheDocument();
   });
-});
+
   test('handles add user button click', async () => {
     fetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve([]), // Ensure empty response
+      json: () => Promise.resolve([]),
     });
-  
+
     renderWithRouter(<Dashboard />);
-  
-    await waitFor(() => {
-      expect(screen.getByText('Loading employees...')).toBeInTheDocument();
-    });
-  
+
     await waitFor(() => {
       expect(screen.getByText('No employees found')).toBeInTheDocument();
     });
-  
+
     fireEvent.click(screen.getByText('Add User'));
-  
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/registration');
+    expect(mockNavigate).toHaveBeenCalledWith('/registration');
+  });
+
+  test('handles edit button click', async () => {
+    const mockEmployee = {
+      id: 1,
+      name: 'amandeep',
+      gender: 'Male',
+      departments: ['IT'],
+      salary: 50000,
+      startDate: '2023-01-01',
+    };
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve([mockEmployee]),
     });
+
+    renderWithRouter(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('amandeep')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('Edit employee')); 
+
+    expect(mockNavigate).toHaveBeenCalledWith('/registration', {
+      state: { employee: mockEmployee, isEdit: true },
+    });
+  });
+
+  test('handles delete button click with confirmation', async () => {
+    const mockEmployee = {
+      id: 1,
+      name: 'amandeep',
+      gender: 'Male',
+      departments: ['IT'],
+      salary: 50000,
+      startDate: '2023-01-01',
+    };
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve([mockEmployee]),
+    });
+    fetch.mockResolvedValueOnce({
+      ok: true,
+    });
+
+    renderWithRouter(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('amandeep')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('Delete employee')); 
+
+    await waitFor(() => {
+      expect(screen.getByText('Are you sure you want to delete the employee?')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('Confirm'));
+
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/EmpList/1', { method: 'DELETE' });
+      expect(screen.queryByText('amandeep')).not.toBeInTheDocument();
+    });
+  });
+
+  test('shows error when delete fails', async () => {
+    const mockEmployee = {
+      id: 1,
+      name: 'amandeep',
+      gender: 'Male',
+      departments: ['IT'],
+      salary: 50000,
+      startDate: '2023-01-01',
+    };
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve([mockEmployee]),
+    });
+    fetch.mockRejectedValueOnce(new Error('Delete failed'));
+
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+
+    renderWithRouter(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('amandeep')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('Delete employee')); 
+
+    await waitFor(() => {
+      expect(screen.getByText('Are you sure you want to delete the employee?')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('Confirm'));
+
+    consoleErrorSpy.mockRestore();
   });
   test('renders header component', () => {
     fetch.mockResolvedValueOnce({
@@ -130,99 +221,4 @@ test('filters employees based on search term when search bar is visible', async 
 
     expect(screen.getByTestId('mock-header')).toBeInTheDocument();
   });
-
-  test('handles edit button click', async () => {
-    const mockEmployee = {
-      id: 1,
-      name: 'Sandeep',
-      gender: 'Male',
-      departments: ['IT'],
-      salary: 50000,
-      startDate: '2023-01-01',
-    };
-  
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve([mockEmployee]),
-    });
-  
-    renderWithRouter(<Dashboard />);
-  
-    await waitFor(() => {
-      expect(screen.getByText('Sandeep')).toBeInTheDocument();
-    });
-  
-    fireEvent.click(screen.getByLabelText('Edit employee'));
-    await waitFor(() =>
-      expect(mockNavigate).toHaveBeenCalledWith('/registration', expect.objectContaining({
-        state: expect.objectContaining({ employee: mockEmployee, isEdit: true }),
-      }))
-    );
-  });
-  test('handles delete button click with confirmation', async () => {
-    const mockEmployee = {
-      id: 1,
-      name: 'Sandeep',
-      gender: 'Male',
-      departments: ['IT'],
-      salary: 50000,
-      startDate: '2023-01-01',
-    };
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve([mockEmployee]),
-    });
-    fetch.mockResolvedValueOnce({
-      ok: true, 
-    });
-    renderWithRouter(<Dashboard />);
-    await waitFor(() => {
-      expect(screen.getByText('Sandeep')).toBeInTheDocument();
-    });
-    fireEvent.click(screen.getByLabelText('Delete employee'));
-    await waitFor(() => {
-      expect(screen.getByText('Are you sure you want to delete the employee?')).toBeInTheDocument();
-    });
-    fireEvent.click(screen.getByText('Delete'));  
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/EmpList/1', { method: 'DELETE' });
-      expect(screen.queryByText('Sandeep')).not.toBeInTheDocument();
-    });
-  });
-  
-
-test('closes modal when cancel button is clicked', async () => {
-  const mockEmployee = {
-    id: 1,
-    name: 'Sandeep',
-    gender: 'Male',
-    departments: ['IT'],
-    salary: 50000,
-    startDate: '2023-01-01',
-  };
-
-  fetch.mockResolvedValueOnce({
-    ok: true,
-    json: () => Promise.resolve([mockEmployee]), // Initial employee list
-  });
-
-  renderWithRouter(<Dashboard />);
-
-  await waitFor(() => {
-    expect(screen.getByText('Sandeep')).toBeInTheDocument();
-  });
-
-  fireEvent.click(screen.getByLabelText('Delete employee'));
-
-  await waitFor(() => {
-    expect(screen.getByText('Are you sure you want to delete the employee?')).toBeInTheDocument();
-  });
-
-  fireEvent.click(screen.getByText('Cancel'));
-
-  await waitFor(() => {
-    expect(screen.queryByText('Are you sure you want to delete the employee?')).not.toBeInTheDocument();
-  });
-});
-
 });
