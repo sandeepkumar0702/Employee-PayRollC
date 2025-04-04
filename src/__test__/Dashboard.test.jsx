@@ -97,6 +97,29 @@ describe('Dashboard Component', () => {
     expect(screen.getByText('Sandeep')).toBeInTheDocument();
     expect(screen.queryByText('Harsh')).not.toBeInTheDocument();
   });
+  test('filters employees based on search term', async () => {
+    const mockEmployees = [
+      { id: 1, name: 'Sandeep', gender: 'Male', departments: ['IT'], salary: 50000, startDate: '2023-01-01' },
+      { id: 2, name: 'Harsh', gender: 'Female', departments: ['HR'], salary: 55000, startDate: '2023-02-01' },
+    ];
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve(mockEmployees),
+    });
+
+    renderWithRouter(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Sandeep')).toBeInTheDocument();
+      expect(screen.getByText('Harsh')).toBeInTheDocument();
+    });
+
+    fireEvent.change(screen.getByPlaceholderText('Search by name...'), {
+      target: { value: 'kl rahul' },
+    });
+    
+    expect(screen.getByText('No employees found')).toBeInTheDocument();
+  });
 
   
 

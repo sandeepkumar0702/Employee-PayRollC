@@ -37,6 +37,18 @@
       "startDate": "17-11-2021",
       "notes": "gg",
       "id": "a960"
+    },
+    {
+      "id": "ae5b",
+      "name": "samk",
+      "profileImage": "/Assets/person1.jpeg",
+      "gender": "female",
+      "departments": [
+        "sales"
+      ],
+      "salary": "₹30,000",
+      "startDate": "17-12-2023",
+      "notes": "bb "
     }
   ]
 }

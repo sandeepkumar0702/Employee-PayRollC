@@ -37,7 +37,7 @@ describe('Login Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText('SSO Login with Google')).toBeInTheDocument();
+    expect(screen.getByText('Login to Payroll')).toBeInTheDocument();
   });
 
   test('handles successful Google login', async () => {
